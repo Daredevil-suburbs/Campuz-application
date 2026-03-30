@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Campuz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .sidebar-item {
+        transition: all 0.3s ease;
+      }
+      .sidebar-item:hover {
+        background: rgba(124, 58, 237, 0.2);
+        transform: translateX(5px);
+      }
+      .sidebar-item.active {
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.3),
+          rgba(236, 72, 153, 0.3)
+        );
+        border-left: 3px solid #7c3aed;
+      }
+      .stat-card {
+        transition: transform 0.3s ease;
+      }
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+  </head>
+  <body class="text-white">
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 glass-effect fixed h-full overflow-y-auto">
+        <div class="p-6">
+          <h2 class="text-2xl font-bold gradient-text mb-8">Campuz</h2>
+          <nav class="space-y-2">
+            <a
+              href="dashboard.html"
+              class="sidebar-item active flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+            <a
+              href="feed.html"
+              class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-newspaper"></i>
+              <span>Academic Feed</span>
+            </a>
+            <a
+              href="chat.html"
+              class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-robot"></i>
+              <span>AI Assistant</span>
+            </a>
+            <a
+              href="search.html"
+              class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-search"></i>
+              <span>Search</span>
+            </a>
+            <a
+              href="#"
+              id="adminPanelLink"
+              class="sidebar-item hidden flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-user-shield"></i>
+              <span>Admin Panel</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 ml-64 overflow-y-auto">
+        <!-- Top Navbar -->
+        <nav class="glass-effect sticky top-0 z-10">
+          <div class="flex justify-between items-center px-6 py-4">
+            <h1 class="text-2xl font-bold">Dashboard</h1>
+            <div class="flex items-center space-x-4">
+              <div class="relative">
+                <i
+                  class="fas fa-bell text-xl cursor-pointer hover:text-purple-400 transition"
+                ></i>
+                <span
+                  class="absolute -top-1 -right-1 bg-pink-500 text-xs rounded-full w-4 h-4 flex items-center justify-center"
+                  >3</span
+                >
+              </div>
+              <div
+                class="flex items-center space-x-3 cursor-pointer"
+                id="userMenuBtn"
+              >
+                <img
+                  src="https://via.placeholder.com/40"
+                  class="w-10 h-10 rounded-full border-2 border-purple-500"
+                />
+                <span id="userName">Loading...</span>
+                <i class="fas fa-chevron-down text-sm"></i>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <div class="p-6">
+          <!-- Welcome Banner -->
+          <div class="glass-effect rounded-2xl p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-2">
+              Welcome back, <span id="welcomeName">Student</span>!
+            </h2>
+            <p class="text-gray-300">
+              Here's what's happening in your academic world today.
+            </p>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="glass-effect rounded-2xl p-6 stat-card">
+              <i class="fas fa-chart-line text-3xl text-purple-500 mb-3"></i>
+              <h3 class="text-gray-400 text-sm">Attendance</h3>
+              <p class="text-2xl font-bold" id="attendancePercentage">85%</p>
+              <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div
+                  class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
+                  style="width: 85%"
+                ></div>
+              </div>
+            </div>
+            <div class="glass-effect rounded-2xl p-6 stat-card">
+              <i class="fas fa-graduation-cap text-3xl text-pink-500 mb-3"></i>
+              <h3 class="text-gray-400 text-sm">Current CGPA</h3>
+              <p class="text-2xl font-bold" id="cgpa">8.5</p>
+            </div>
+            <div class="glass-effect rounded-2xl p-6 stat-card">
+              <i class="fas fa-rupee-sign text-3xl text-purple-500 mb-3"></i>
+              <h3 class="text-gray-400 text-sm">Fees Status</h3>
+              <p class="text-2xl font-bold" id="feeStatus">Paid</p>
+            </div>
+            <div class="glass-effect rounded-2xl p-6 stat-card">
+              <i class="fas fa-calendar-alt text-3xl text-pink-500 mb-3"></i>
+              <h3 class="text-gray-400 text-sm">Upcoming Events</h3>
+              <p class="text-2xl font-bold" id="upcomingEvents">3</p>
+            </div>
+          </div>
+
+          <!-- Academic Info -->
+          <div class="grid lg:grid-cols-2 gap-6 mb-8">
+            <div class="glass-effect rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-4">Academic Information</h3>
+              <div class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Branch:</span>
+                  <span id="branch">Computer Science</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Semester:</span>
+                  <span id="semester">6th Semester</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Enrollment No:</span>
+                  <span id="enrollmentNo">CS2021001</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Enrollment Year:</span>
+                  <span id="enrollmentYear">2021</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notifications Panel -->
+            <div class="glass-effect rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-4">Recent Notifications</h3>
+              <div class="space-y-3" id="notificationsList">
+                <div class="border-l-4 border-purple-500 pl-3">
+                  <p class="font-semibold">Mid-term exams schedule released</p>
+                  <p class="text-sm text-gray-400">2 hours ago</p>
+                </div>
+                <div class="border-l-4 border-pink-500 pl-3">
+                  <p class="font-semibold">
+                    Guest Lecture on AI by IIT Professor
+                  </p>
+                  <p class="text-sm text-gray-400">Yesterday</p>
+                </div>
+                <div class="border-l-4 border-purple-500 pl-3">
+                  <p class="font-semibold">Fee payment deadline extended</p>
+                  <p class="text-sm text-gray-400">2 days ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Posts -->
+          <div class="glass-effect rounded-2xl p-6">
+            <h3 class="text-xl font-bold mb-4">Latest Updates</h3>
+            <div class="space-y-4" id="recentPosts">
+              <div class="flex items-start space-x-3">
+                <i class="fas fa-bullhorn text-purple-500 mt-1"></i>
+                <div>
+                  <p class="font-semibold">College Festival 2024</p>
+                  <p class="text-sm text-gray-400">
+                    Registration open for cultural events
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <i class="fas fa-chart-line text-pink-500 mt-1"></i>
+                <div>
+                  <p class="font-semibold">Placement Drive</p>
+                  <p class="text-sm text-gray-400">
+                    Top companies visiting next week
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>
