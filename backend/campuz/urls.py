@@ -26,6 +26,16 @@ urlpatterns = [
         serve,
         {"path": "chat.html", "document_root": str(FRONTEND_DIR)},
     ),
+    path(
+        "login.html",
+        serve,
+        {"path": "login.html", "document_root": str(FRONTEND_DIR)},
+    ),
+    path(
+        "register.html",
+        serve,
+        {"path": "register.html", "document_root": str(FRONTEND_DIR)},
+    ),
     path("js/<path:path>", serve, {"document_root": str(FRONTEND_DIR / "js")}),
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
