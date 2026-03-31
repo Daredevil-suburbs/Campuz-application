@@ -86,7 +86,7 @@
   <body class="text-white h-screen overflow-hidden">
     <div class="flex h-screen">
       <!-- Sidebar -->
-      <aside class="w-64 glass-effect fixed h-full z-20">
+      <aside id="sidebar" class="w-64 glass-effect fixed h-full z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out bg-[#020617] md:bg-transparent border-r border-gray-800 md:border-none">
         <div class="p-6">
           <h2 class="text-2xl font-bold gradient-text mb-8">Campuz</h2>
           <nav class="space-y-2">
@@ -123,11 +123,14 @@
       </aside>
 
       <!-- Main Content -->
-      <main class="flex-1 ml-64 flex flex-col h-full relative">
+      <main class="flex-1 w-full md:ml-64 flex flex-col h-full relative">
         <!-- Top Navbar -->
-        <nav class="glass-effect sticky top-0 flex-shrink-0 z-10 w-full">
-          <div class="flex justify-between items-center px-6 py-4">
+        <nav class="glass-effect sticky top-0 flex-shrink-0 z-10 w-full border-b border-gray-800 md:border-none">
+          <div class="flex justify-between items-center px-4 md:px-6 py-4">
             <div class="flex items-center space-x-3">
+              <button id="mobileMenuBtn" class="md:hidden text-2xl mr-2 focus:outline-none text-purple-400">
+                <i class="fas fa-bars"></i>
+              </button>
               <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center">
                 <i class="fas fa-robot text-xl"></i>
               </div>
@@ -173,5 +176,22 @@
     </div>
 
     <script src="js/chat.js"></script>
+    <script>
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const sidebar = document.getElementById('sidebar');
+      if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('-translate-x-full');
+        });
+        
+        document.addEventListener('click', (e) => {
+          if (window.innerWidth < 768 && !sidebar.contains(e.target) && e.target !== mobileMenuBtn && !mobileMenuBtn.contains(e.target)) {
+            if (!sidebar.classList.contains('-translate-x-full')) {
+              sidebar.classList.add('-translate-x-full');
+            }
+          }
+        });
+      }
+    </script>
   </body>
 </html>

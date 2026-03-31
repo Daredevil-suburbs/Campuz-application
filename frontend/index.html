@@ -66,7 +66,7 @@
             >
             <a href="#about" class="hover:text-purple-400 transition">About</a>
           </div>
-          <div class="space-x-4">
+          <div class="hidden md:block space-x-4">
             <a
               href="dashboard.html"
               class="px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition"
@@ -74,9 +74,24 @@
               Login
             </a>
           </div>
+          <button id="mobileMenuBtn" class="md:hidden text-2xl focus:outline-none">
+            <i class="fas fa-bars"></i>
+          </button>
         </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed top-[72px] left-0 w-full bg-[#020617] bg-opacity-95 z-40 hidden md:hidden flex-col shadow-lg border-b border-gray-800">
+      <div class="flex flex-col space-y-4 p-6">
+        <a href="#home" class="hover:text-purple-400 transition text-lg">Home</a>
+        <a href="#features" class="hover:text-purple-400 transition text-lg">Features</a>
+        <a href="#about" class="hover:text-purple-400 transition text-lg">About</a>
+        <div class="pt-4 border-t border-gray-600">
+          <a href="dashboard.html" class="block text-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 transition">Login</a>
+        </div>
+      </div>
+    </div>
 
     <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center pt-20">
@@ -201,5 +216,23 @@
     </section>
 
     <script src="js/auth.js"></script>
+    <script>
+      const btn = document.getElementById('mobileMenuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          menu.classList.toggle('flex');
+        });
+        
+        // Close menu when clicking links
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+          });
+        });
+      }
+    </script>
   </body>
 </html>

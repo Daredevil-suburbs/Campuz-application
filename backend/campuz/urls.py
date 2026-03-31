@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.static import serve
 
-FRONTEND_DIR = Path(settings.BASE_DIR) / "frontend"
+FRONTEND_DIR = Path(settings.BASE_DIR).parent / "frontend"
 
 urlpatterns = [
     # Frontend static pages (development convenience).
@@ -20,6 +20,11 @@ urlpatterns = [
         "feed.html",
         serve,
         {"path": "feed.html", "document_root": str(FRONTEND_DIR)},
+    ),
+    path(
+        "chat.html",
+        serve,
+        {"path": "chat.html", "document_root": str(FRONTEND_DIR)},
     ),
     path("js/<path:path>", serve, {"document_root": str(FRONTEND_DIR / "js")}),
     path('admin/', admin.site.urls),
