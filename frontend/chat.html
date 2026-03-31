@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Assistant - Campuz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .sidebar-item {
+        transition: all 0.3s ease;
+      }
+      .sidebar-item:hover {
+        background: rgba(124, 58, 237, 0.2);
+        transform: translateX(5px);
+      }
+      .sidebar-item.active {
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.3),
+          rgba(236, 72, 153, 0.3)
+        );
+        border-left: 3px solid #7c3aed;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      /* Chat specific styles */
+      #chat-messages::-webkit-scrollbar {
+        width: 6px;
+      }
+      #chat-messages::-webkit-scrollbar-thumb {
+        background-color: rgba(124, 58, 237, 0.5);
+        border-radius: 10px;
+      }
+      .bot-msg {
+        background: rgba(255, 255, 255, 0.1);
+        border-top-left-radius: 0;
+      }
+      .user-msg {
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        border-top-right-radius: 0;
+      }
+      .typing-indicator span {
+        animation: blink 1.4s infinite both;
+        height: 6px;
+        width: 6px;
+        background: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 1px;
+      }
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes blink {
+        0%, 80%, 100% { opacity: 0; }
+        40% { opacity: 1; }
+      }
+    </style>
+  </head>
+  <body class="text-white h-screen overflow-hidden">
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 glass-effect fixed h-full z-20">
+        <div class="p-6">
+          <h2 class="text-2xl font-bold gradient-text mb-8">Campuz</h2>
+          <nav class="space-y-2">
+            <a
+              href="dashboard.html"
+              class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+            <a
+              href="feed.html"
+              class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-newspaper"></i>
+              <span>Academic Feed</span>
+            </a>
+            <a
+              href="chat.html"
+              class="sidebar-item active flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-robot"></i>
+              <span>AI Assistant</span>
+            </a>
+            <a
+              href="search.html"
+              class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg"
+            >
+              <i class="fas fa-search"></i>
+              <span>Search</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 ml-64 flex flex-col h-full relative">
+        <!-- Top Navbar -->
+        <nav class="glass-effect sticky top-0 flex-shrink-0 z-10 w-full">
+          <div class="flex justify-between items-center px-6 py-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center">
+                <i class="fas fa-robot text-xl"></i>
+              </div>
+              <div>
+                <h1 class="text-xl font-bold">Campuz AI Bot</h1>
+                <p class="text-xs text-green-400">● Online</p>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Chat Container -->
+        <div class="flex-1 overflow-y-auto p-6 flex flex-col space-y-4" id="chat-messages">
+          <!-- Initial Bot Message -->
+          <div class="flex justify-start">
+            <div class="bot-msg max-w-lg rounded-2xl px-5 py-3 shadow-lg glass-effect">
+              <p>Hi there! 👋 I'm your Campuz AI Assistant. I can help you find your attendance, check your grades, check events, or answer questions about your courses. How can I assist you today?</p>
+              <span class="text-xs text-gray-400 mt-1 block">Just now</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-6 glass-effect flex-shrink-0">
+          <form id="chatForm" class="flex relative items-center">
+            <input
+              type="text"
+              id="messageInput"
+              class="w-full bg-slate-800/50 border border-gray-600 rounded-full py-4 pl-6 pr-14 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+              placeholder="Ask me anything..."
+              autocomplete="off"
+              required
+            />
+            <button
+              type="submit"
+              class="absolute right-2 top-2 bottom-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full w-10 h-10 flex items-center justify-center hover:opacity-90 transition-opacity"
+            >
+              <i class="fas fa-paper-plane text-white text-sm"></i>
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <script src="js/chat.js"></script>
+  </body>
+</html>
