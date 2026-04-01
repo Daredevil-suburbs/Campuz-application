@@ -1,3 +1,11 @@
+// --- Developer Easter Egg ---
+setTimeout(() => {
+    console.log(
+        "%c ✨ Crafted with passion by Armaan ✨ ", 
+        "background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%); color: white; font-size: 14px; font-weight: bold; border-radius: 8px; padding: 10px 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);"
+    );
+}, 1000);
+
 // API Configuration
 const API_BASE_URL = "/api";
 let authToken = localStorage.getItem("access_token");
