@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       
       const userData = {
-        name: document.getElementById("name").value,
+        username: document.getElementById("name").value, // Mapping 'name' to 'username' for backend
         email: document.getElementById("email").value,
         phone: document.getElementById("phone").value || "",
         department: document.getElementById("department").value,
@@ -59,11 +59,21 @@ document.addEventListener("DOMContentLoaded", () => {
       errorMsg.classList.add("hidden");
 
       try {
-        await api.register(userData);
-        // Automatically log them in after registration
-        const loginResult = await api.login(userData.email, userData.password);
-        if (loginResult.access) {
-          window.location.href = "dashboard.html";
+        const registrationResult = await api.register(userData);
+        
+        // Check if registration was successful (it returns user object on success)
+        if (registrationResult && !registrationResult.error && !Object.keys(registrationResult).some(key => Array.isArray(registrationResult[key]))) {
+            // Automatically log them in after registration
+            const loginResult = await api.login(userData.email, userData.password);
+            if (loginResult.access) {
+              window.location.href = "dashboard.html";
+            } else {
+              throw new Error("Login failed after registration");
+            }
+        } else {
+            // Registration failed with validation errors
+            const firstError = Object.values(registrationResult)[0];
+            throw new Error(Array.isArray(firstError) ? firstError[0] : "Registration failed");
         }
       } catch (err) {
         // Simple error handling
