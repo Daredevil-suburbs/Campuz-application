@@ -33,8 +33,8 @@ const api = {
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
-      if (response.status === 401) {
-        // Token expired, try to refresh
+      if (response.status === 401 && endpoint !== "/users/login/" && endpoint !== "/users/token/refresh/") {
+        // Token expired, try to refresh (don't refresh if login/refresh itself failed)
         const refreshed = await this.refreshToken();
         if (refreshed) {
           headers["Authorization"] = `Bearer ${authToken}`;
@@ -46,7 +46,15 @@ const api = {
         }
       }
 
-      return await response.json();
+      const responseData = await response.json();
+      
+      if (!response.ok) {
+        // Return JSON as well, but can throw or let the caller handle it.
+        // For login, we want the 401 error message.
+        return responseData;
+      }
+
+      return responseData;
     } catch (error) {
       console.error("API Error:", error);
       throw error;
